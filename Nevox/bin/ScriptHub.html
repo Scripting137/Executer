@@ -161,6 +161,32 @@
         title: "WRD ESP",
         subtitle: "Universal Script",
         getCode: () => 'loadstring(game:HttpGet("https://cdn.wearedevs.net/scripts/WRD%20ESP.txt"))()'
+      },
+      {
+        title: "Infinite Yield",
+        subtitle: "Universal Script",
+        getCode: () => 'loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()'
+      },
+      {
+        title: "Hydroxide",
+        subtitle: "Universal Script",
+        getCode: () => `
+local function webImport(file)
+    return loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Upbolt/Hydroxide/revision/" .. file .. ".lua"))()
+end
+webImport("init")
+webImport("ui/main")
+        `.trim()
+      },
+      {
+        title: "Remote Spy",
+        subtitle: "Universal Script",
+        getCode: () => 'loadstring(game:HttpGetAsync("https://github.com/richie0866/remote-spy/releases/latest/download/RemoteSpy.lua"))()'
+      },
+      {
+        title: "Dark Dex",
+        subtitle: "Universal Script",
+        getCode: () => 'loadstring(game:HttpGet("https://raw.githubusercontent.com/peyton2465/Dex/master/out.lua"))()'
       }
     ];
 
@@ -185,7 +211,7 @@
 
         card.innerHTML = `
           <h2 class="script-title" title="${s.title}">${s.title}</h2>
-          <div class="script-subtitle">${s.subtitle || ""}</div>
+          <div class="script-subtitle">Universal Script</div>
           <button class="copy-btn" id="copyBtn${i}">Copy</button>
         `;
 

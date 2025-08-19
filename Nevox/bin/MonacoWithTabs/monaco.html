@@ -885,7 +885,7 @@
         window.addEventListener('beforeunload', () => saveTabsState());
 
         require(["vs/editor/editor.main"], function () {
-  // Complete Lua language configuration matching your request
+
   monaco.languages.register({ id: 'lua' });
 
   monaco.languages.setLanguageConfiguration('lua', {
@@ -922,7 +922,7 @@
     }
   });
 
-  // Full language tokenizer with keywords, globals, operators, escapes
+
   monaco.languages.setMonarchTokensProvider('lua', {
     defaultToken: '',
     tokenPostfix: '.lua',
@@ -952,7 +952,7 @@
 
     tokenizer: {
       root: [
-        // identifiers and keywords
+
         [/[a-zA-Z_]\w*/, {
           cases: {
             '@keywords': { token: 'keyword.$0' },
@@ -961,14 +961,14 @@
           }
         }],
 
-        // whitespace
+
         { include: '@whitespace' },
 
-        // keys in objects (optional for Lua - adjust if needed)
+  
         [/(,)(\s*)([a-zA-Z_]\w*)(\s*)(:)(?!:)/, ['delimiter', '', 'key', '', 'delimiter']],
         [/{/, 'delimiter.bracket'],
 
-        // brackets and delimiters
+
         [/[{}()\[\]]/, '@brackets'],
         [/@symbols/, {
           cases: {
@@ -977,21 +977,21 @@
           }
         }],
 
-        // numbers (floats, hex, ints)
+     
         [/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
         [/0[xX][0-9a-fA-F_]*[0-9a-fA-F]/, 'number.hex'],
         [/\d+?/, 'number'],
 
-        // delimiters
+   
         [/[;,.]/, 'delimiter'],
 
-        // strings (match invalid ones too)
+
         [/".*?"/, 'string'],
         [/'[^']*'/, 'string'],
         [/"/, 'string', '@string."'],
         [/'/, 'string', '@string.\''],
 
-        // comments
+
         [/--\[\[.*\]\]/, 'comment'],
         [/--.*$/, 'comment']
       ],
@@ -1014,7 +1014,7 @@
     },
   });
 
-  // Full autocomplete provider including all keywords, globals, and operators
+
   monaco.languages.registerCompletionItemProvider('lua', {
     provideCompletionItems: () => {
       const keywords = [
@@ -1069,7 +1069,6 @@
     }
   });
 
-  // Define the custom dark theme like before with find widget styling
   monaco.editor.defineTheme('custom-dark', {
     base: 'vs-dark',
     inherit: true,
@@ -1083,7 +1082,6 @@
     }
   });
 
-  // Create editor instance with the custom theme and lua language
   const editor = monaco.editor.create(document.getElementById('editor0'), {
     language: 'lua',
     theme: 'custom-dark',
@@ -1093,13 +1091,13 @@
     cursorBlinking: 'smooth',
   });
 
-  // Disable right-click context menu on the editor
+
   editor.onContextMenu(e => {
     e.event.preventDefault();
     e.event.stopPropagation();
   });
 
-  // Inject CSS override for Ctrl+F highlight colors (find widget)
+
   const style = document.createElement('style');
   style.innerHTML = `
     .monaco-editor .findMatch {
