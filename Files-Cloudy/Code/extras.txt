@@ -1,5 +1,0 @@
-CloudyApi.Api.misc.GetUsername();
-
-CloudyApi.Api.misc.killRoblox();
-
-CloudyApi.Api.External.AutoInject(true / false);
