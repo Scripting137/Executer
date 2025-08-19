@@ -1,0 +1,6 @@
+Scripthub Hub = new Scripthub();
+Hub.Show();
+
+
+await webView21.EnsureCoreWebView2Async(null);
+webView21.CoreWebView2.Navigate(Application.StartupPath + "\\bin\\MonacoWithTabs\\Scripthub.html");

@@ -1,0 +1,7 @@
+1. paste the code in an empty space with no code!
+2. Replace the link with your link (raw github / pastebin)
+3. inside ur raw text type in a single digit number (reccomended 1) and under that line paste the direct download dropbox link 
+4. create a txt were ur executer is located named "currentVersion" 
+5. inside of ur text and type in a number equal to the text
+6. Now Replace the code string fullPath = Path.Combine(path, "Xeno.dll"); and change the Xeno.dll to whatever dll u are using (unless ur using Xeno.dll)
+7. Now whenever u want to update ur executoe r replace the dropbox link add then increase the number above it by 1!

@@ -1,0 +1,225 @@
+ private async void Attachwithapi()
+ {
+
+     if (CloudyApi.Api.misc.isRobloxOpen())
+     {
+         LogToConsole("Roblox Has been Detected", LogType.INFO);
+         CloudyApi.Api.External.inject();
+
+         await ExecuteScriptAsync();
+
+         LogToConsole("Sent Injection!", LogType.Success);
+     }
+     else
+     {
+         LogToConsole("Roblox not detected!", LogType.ERROR);
+     }
+ }
+
+
+
+
+
+ private async Task CleaWhiteitor()
+ {
+     await webView21.CoreWebView2.ExecuteScriptAsync("window.celestiaEditor && window.celestiaEditor.clearText && window.celestiaEditor.clearText();");
+
+ }
+
+ private async Task SaveTextAsLua()
+ {
+     try
+     {
+
+         string jsResult = await webView21.CoreWebView2.ExecuteScriptAsync("window.celestiaEditor && window.celestiaEditor.editor && window.celestiaEditor.editor.getValue();");
+
+
+         if (jsResult.Length >= 2 && jsResult[0] == '"' && jsResult[jsResult.Length - 1] == '"')
+         {
+             jsResult = jsResult.Substring(1, jsResult.Length - 2);
+         }
+
+         string editorContent = jsResult
+             .Replace("\\n", "\n")
+             .Replace("\\r", "\r")
+             .Replace("\\t", "\t")
+             .Replace("\\\"", "\"")
+             .Replace("\\\\", "\\");
+
+         using (SaveFileDialog sfd = new SaveFileDialog())
+         {
+             sfd.Filter = "Lua Files (*.lua)|*.lua|Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+             sfd.Title = "Save Script File";
+             sfd.FileName = "Script.lua";
+
+             if (sfd.ShowDialog() == DialogResult.OK)
+             {
+                 File.WriteAllText(sfd.FileName, editorContent);
+             }
+         }
+     }
+     catch (Exception ex)
+     {
+         MessageBox.Show($"Failed to save file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+     }
+ }
+
+ private async Task LoadTextFromFile()
+ {
+     using (OpenFileDialog ofd = new OpenFileDialog())
+     {
+         ofd.Filter = "All Files (*.*)|*.*|Lua Files (*.lua)|*.lua|Text Files (*.txt)|*.txt";
+         ofd.Title = "Open Script File";
+
+         if (ofd.ShowDialog() == DialogResult.OK)
+         {
+             try
+             {
+                 string fileContent = File.ReadAllText(ofd.FileName);
+
+                 string escapedContent = fileContent
+                     .Replace("\\", "\\\\")
+                     .Replace("\"", "\\\"")
+                     .Replace("\r", "")
+                     .Replace("\n", "\\n");
+
+                 if (webView21.CoreWebView2 != null)
+                 {
+
+                     await webView21.CoreWebView2.ExecuteScriptAsync($"window.celestiaEditor && window.celestiaEditor.setText && window.celestiaEditor.setText(\"{escapedContent}\");");
+                 }
+                 else
+                 {
+                     MessageBox.Show("Editor is not ready yet.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                 }
+             }
+             catch (Exception ex)
+             {
+                 MessageBox.Show($"Failed to load file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+             }
+         }
+     }
+ }
+
+
+ private async Task<string> GetEditorContent()
+ {
+     await webView21.EnsureCoreWebView2Async();
+     string script = "monaco.editor.getModels()[0].getValue()";
+     string result = await webView21.ExecuteScriptAsync(script);
+     return JsonConvert.DeserializeObject<string>(result);
+ }
+
+ private async Task ExecuteScriptAsync()
+ {
+     string scriptcontent = await GetEditorContent();
+     CloudyApi.Api.External.execute(scriptcontent);
+
+ }
+
+ private async void Execute()
+ {
+     if (CloudyApi.Api.misc.isRobloxOpen())
+     {
+
+
+         if (CloudyApi.Api.External.IsInjected())
+         {
+             await ExecuteScriptAsync();
+             LogToConsole("Sent Execution!", LogType.Success);
+         }
+         else 
+         {
+             LogToConsole("Not Injected!", LogType.ERROR);
+         }
+     }
+     else
+     {
+         LogToConsole("Roblox Not Detected!", LogType.ERROR);
+     }
+ }
+
+ private async void Startup()
+ {
+     Api.External.RegisterExecutor("Custom Injection Message");
+     Api.misc.disableSecurity();
+     await webView21.EnsureCoreWebView2Async(null);
+     webView21.CoreWebView2.Navigate(System.Windows.Forms.Application.StartupPath + "\\bin\\MonacoWithTabs\\monaco.html");
+     try
+     {
+         string Exe = System.Reflection.Assembly.GetExecutingAssembly().Location;
+         string dir = Path.GetDirectoryName(Exe);
+         var files = Directory.GetFiles(dir);
+         string Executorn = Path.GetFileName(Exe);
+         foreach (string file in files)
+         {
+             string filename = Path.GetFileName(file);
+             if (filename.Equals(Executorn, StringComparison.OrdinalIgnoreCase))
+                 continue;
+             try
+             {
+                 File.SetAttributes(file, File.GetAttributes(file) | FileAttributes.Hidden);
+             }
+             catch { MessageBox.Show("Error on File configuration"); }
+         }
+     }
+     catch { MessageBox.Show("Error on fetching files"); }
+ }
+
+
+ private void Minimize()
+ {
+     this.WindowState = FormWindowState.Minimized;
+ }
+ private void Exit()
+ {
+     System.Windows.Forms.Application.Exit();
+ }
+
+ public enum LogType
+ {
+     INFO,
+     ERROR,
+     Warning,
+     Success
+ }
+
+ public static class ConsoleLogger
+ {
+     public static Color GetLogColor(LogType type)
+     {
+         if (type == LogType.INFO)
+             return Color.White;
+         if (type == LogType.ERROR)
+             return Color.Red;
+         if (type == LogType.Warning)
+             return Color.Yellow;
+         if (type == LogType.Success)
+             return Color.Green;
+
+         return Color.White;
+     }
+ }
+
+ private void LogToConsole(string message, LogType type)
+ {
+     string timestamp = DateTime.Now.ToString("HH:mm");
+     Color logColor = ConsoleLogger.GetLogColor(type);
+
+     consoleBox.SelectionStart = consoleBox.TextLength;
+     consoleBox.SelectionLength = 0;
+
+
+     consoleBox.SelectionColor = logColor;
+     consoleBox.AppendText($"[ {type} ]");
+
+
+     consoleBox.SelectionColor = Color.White;
+     consoleBox.AppendText($" [{timestamp}] ");
+
+
+     consoleBox.SelectionColor = logColor;
+     consoleBox.AppendText($"{message}\n");
+
+     consoleBox.ScrollToCaret();
+ }

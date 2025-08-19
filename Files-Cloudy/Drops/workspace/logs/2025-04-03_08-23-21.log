@@ -1,0 +1,24 @@
+[2025-04-03 08:23:21.018] [Xeno] [info] Version: Xeno - v1.1.6
+[2025-04-03 08:23:21.018] [Xeno] [info] Logs stored in logs/2025-04-03_08-23-21.log
+[2025-04-03 08:23:21.020] [Xeno] [debug] Client Checker thread: 0xf927bfe4e0
+[2025-04-03 08:23:21.020] [Xeno] [debug] Xeno Caching thread: 0xf927bfe4d0
+[2025-04-03 08:23:21.020] [Xeno] [debug] WebSockets Cleaner thread: 0xf927bfe4c0
+[2025-04-03 08:23:21.020] [Xeno] [debug] Xeno Server thread: 0xf927bfe4b0
+[2025-04-03 08:23:21.020] [Cache] [info] File: C:\Users\chop\AppData\Local\Temp\XENO_CACHE.bin
+[2025-04-03 08:23:21.020] [Cache] [info] Loaded cache: 0 RBXClients, 0 RBXBytecode, 0 RBXMFlags
+[2025-04-03 08:23:21.021] [Server] [info] Listening on http://localhost:3110
+[2025-04-03 08:23:21.037] [Xeno] [info] Creating new RBXClient: 12192
+[2025-04-03 08:23:21.037] [RBXClient] [info] [12192]: Initializing...
+[2025-04-03 08:23:21.037] [RBXClient] [info] [12192]: Version: version-347f4ac346734391
+[2025-04-03 08:23:21.037] [Xeno] [debug] Created RBXClient instance @0x1ffbe4e95f0
+[2025-04-03 08:23:21.037] [Xeno] [info] Successfully created RBXClient: 12192
+[2025-04-03 08:23:21.037] [RBXClient] [debug] [12192]: Getting RenderView...
+[2025-04-03 08:23:21.320] [RBXClient] [debug] [12192]: String: 0x1873a5c4860
+[2025-04-03 08:23:21.320] [RBXClient] [warning] [12192]: Bad String Address found. Refetching String Address...
+[2025-04-03 08:23:21.673] [RBXClient] [debug] [12192]: String: 0x1873a5c4860
+[2025-04-03 08:23:21.673] [RBXClient] [critical] [12192]: Failed to get RenderView
+[2025-04-03 08:23:25.054] [Execution] [error] [12192]: DataModel address is invalid
+[2025-04-03 08:23:25.063] [Execution] [error] [12192]: DataModel address is invalid
+[2025-04-03 08:24:08.688] [Execution] [error] [12192]: DataModel address is invalid
+[2025-04-03 08:24:08.728] [Execution] [error] [12192]: DataModel address is invalid
+[2025-04-03 08:24:12.177] [Execution] [error] [12192]: DataModel address is invalid

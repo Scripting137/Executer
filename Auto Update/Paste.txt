@@ -1,0 +1,41 @@
+private async void AutoUpdate()
+{
+    string link = "https://raw.githubusercontent.com/Golddeathninja/Versuiii/refs/heads/main/date";
+    string downloadlink = null;
+    
+    using (HttpClient client = new HttpClient())
+    {
+        string versionText = (await client.GetStringAsync(link)).Split('\n').FirstOrDefault()?.Trim();
+        int newestVersion = int.Parse(versionText.Trim());
+        int version = int.Parse(File.ReadAllText("currentVersion.txt"));
+        string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin");
+        string fullPath = Path.Combine(path, "Xeno.dll");
+        if (!File.Exists("currentVersion.txt")) {
+            Directory.CreateDirectory("currentVersion.txt");
+        }
+        string fileContent = await new HttpClient().GetStringAsync(link);
+        string[] allLines = fileContent.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        downloadlink = allLines[1];
+        foreach (string line in allLines) { downloadlink = line; }
+        if (newestVersion != version)
+        {
+           version = newestVersion;
+           File.WriteAllText("currentVersion.txt", version.ToString());
+           await  popupupdateAsync(downloadlink, fullPath);
+        }
+    }
+
+}
+
+private async Task popupupdateAsync(string abc, string pp)
+{
+    MessageBox.Show("Theres an Update Available! Please Wait For the completion Popup until doing anything!");
+    
+    using (WebClient client = new WebClient())
+    {
+
+        client.DownloadFile(abc, pp);
+        Thread.Sleep(10000);
+        MessageBox.Show("Completed!");
+    }
+}
