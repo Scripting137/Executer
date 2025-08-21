@@ -1,0 +1,1 @@
+Nevox Executor is intended for educational and entertainment purposes only. Users are advised to respect Roblox's terms of service and use the tool responsibly. Unauthorized use may result in penalties or bans from the platform.
